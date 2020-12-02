@@ -4,3 +4,5 @@ bin/
 project/
 target/
 build/
+.bsp/
+.idea/
