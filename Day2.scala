@@ -11,7 +11,7 @@ class Day2 {
         }
     }
 
-    def isValid(x: String): Boolean = {
+    def isValidPart1(x: String): Boolean = {
         val rangeString = x.split(':')(0)
         val password = x.split(':')(1).trim
         val low = rangeString.split('-')(0).toInt
@@ -22,9 +22,24 @@ class Day2 {
         range.contains(count)
     }
 
+    def isValidPart2(x: String): Boolean = {
+        val rangeString = x.split(':')(0)
+        val password = x.split(':')(1).trim
+        val px = rangeString.split('-')(0).toInt - 1
+        val py = rangeString.split('-')(1).dropRight(1).trim.toInt - 1
+        val letter = rangeString.split('-').mkString.trim.last
+        val firstpos = password(px).equals(letter)
+        val secondpos = password(py).equals(letter)
+
+        xor(firstpos, secondpos)
+    }
+
+    def xor(x: Boolean, y: Boolean): Boolean = {
+        (x || y) && !(x && y)
+    }
+
     def numberOfValid: Int = {
-        println(input.size)
-        val partial = input.filter(x => isValid(x))
+        val partial = input.filter(x => isValidPart2(x))
         partial.size
     }
 
