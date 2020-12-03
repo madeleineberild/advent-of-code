@@ -44,7 +44,7 @@ class Day2 {
     }
 
     def run = {
-        fromFile("day2.txt")
+        fromFile("input/day2.txt")
         println(s"Only $numberOfValid passwords are valid in this database")
     }
 }

@@ -42,7 +42,7 @@ class Day1 {
 
     def run() = {
         //part 1
-        fromFile("day1.txt")
+        fromFile("input/day1.txt")
         val x = findPair._1
         val y = findPair._2
         println(s"The numbers are $x and $y. The product is ${x * y}")
