@@ -31,7 +31,7 @@ class Day4 {
     }
 
     def run = {
-        fromFile("input/Day4.txt")
+        fromFile("input/day4.txt")
         makePassports
         println("Number of valid passports: " + count)
     }

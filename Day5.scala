@@ -37,7 +37,7 @@ class Day5 {
     }
 
     def run = {
-        fromFile("input/Day5.txt")
+        fromFile("input/day5.txt")
         generateBoardingPasses
         println("The highest seatID is: " + findMaxSeatID)
         println("The empty seats are the following, now you do the work: \n" + compare.toString)

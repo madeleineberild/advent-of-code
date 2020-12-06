@@ -48,7 +48,7 @@ class Day6 {
 
     def run = {
         println("Hello day 6")
-        fromFile("input/Day6.txt")
+        fromFile("input/day6.txt")
         println("The number of questions anyone said yes: " + sumAnyoneSaidYes)
         println("The number of questions everyone said yes: " + sumEveryoneSaidYes)
     }
