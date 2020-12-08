@@ -6,7 +6,9 @@ import scala.collection.mutable.HashMap
 
 class Day7 {
     val input = new ArrayBuffer[String]
-    val graph = new HashMap[String, Vector[String]]
+    val colorGraph = new HashMap[String, Vector[String]]
+    val numberGraph = new HashMap[String, Vector[Int]]
+    val colorAndNumber = new HashMap[String, Vector[(Int, String)]]
 
     def fromFile(fileName: String) = {
         for(line <- Source.fromFile(fileName).getLines) {
@@ -16,6 +18,11 @@ class Day7 {
 
     def colors: ArrayBuffer[String] = {
         input.map(_.split("bags")(0).trim)
+    }
+
+    def findNumbers(color: String): Vector[Int] = {
+        val string = input.find(_.startsWith(color)).getOrElse("")
+        string.split(' ').toVector.map(x => x.filter(_.isDigit)).filter(_.nonEmpty).map(_.toInt)
     }
 
     def findNeighbors(color: String): Vector[String] = {
@@ -30,32 +37,54 @@ class Day7 {
         neighbors
     }
 
-    def createGraph = {
+    def createColorGraph = {
         for(c <- colors) {
-            graph.put(c, findNeighbors(c))
+            colorGraph.put(c, findNeighbors(c))
+        }
+    }
+
+    def createNumberGraph = {
+        for(c <- colors) {
+            numberGraph.put(c, findNumbers(c))
+        }
+    }
+
+    //vi kan inte vara säkra på att siffrorna och numrena hamnar i samma ordning
+    def createCombined = {
+        for(color <- colors) {
+            for(n <- numberGraph(color); c <- colorGraph(color)) {
+                if(input.find(_.startsWith(color)).getOrElse("").contains(s"$n $c")) {
+                    println("Kommer hit")
+                    if(colorAndNumber.isDefinedAt(color)) {
+                        colorAndNumber.put(color, colorAndNumber(c) :+ (n, c))
+                    } else {
+                        colorAndNumber.put(color, Vector((n, c)))
+                    }
+                }
+            }
         }
     }
 
     def containsShiny(color: String): Boolean = {
-        if(graph(color).isEmpty) {
+        if(colorGraph(color).isEmpty) {
             //println(s"$color does not contain anything")
             //0
             false
-        } else if(graph(color).contains("shiny gold")) {
+        } else if(colorGraph(color).contains("shiny gold")) {
             //println(s"$color contains shiny gold")
             //1
             true
         } else {
-            //println(s"$color contains ${graph(color)}")
-            graph(color).map(x => containsShiny(x)).contains(true)
+            //println(s"$color contains ${colorGraph(color)}")
+            colorGraph(color).map(x => containsShiny(x)).contains(true)
         }
     }
 
     def numberOfBagsContainShiny: Int = {
         var result = 0
-        for(k <- graph.keySet) {
+        for(k <- colorGraph.keySet) {
             //println(s"Now check $k")
-            val neighbors = graph(k)
+            val neighbors = colorGraph(k)
             if(k != "shiny gold" && neighbors.contains("shiny gold")) {
                 //println(s"$k has gold + 1")
                 result += 1
@@ -67,10 +96,50 @@ class Day7 {
         result
     }
 
+/*     def recursiveCalc(pair: (Int,String)): Int = {
+        if(pair.isEmpty) {
+            println("Tom väska")
+            1
+        } else {
+            println("ej tom väska")
+            pair._1 * calculate(pair._2)
+        }
+    } */
+    
+    
+    def calculate(color: String, no: Int): Int = {
+        var sum = 0
+        if(!colorAndNumber.isDefinedAt(color)) {
+            println("tom väska")
+            no
+        } else {
+            colorAndNumber(color).map(x => calculate(x._2, x._1)).sum + no
+        }
+    }
+
+    def _calculate(color: String, no: Int): String = {
+        if(colorAndNumber(color).isEmpty) {
+            (color * no)
+        } else {
+            val string = (for(p <- colorAndNumber(color)) yield _calculate(p._2, p._1))
+            //val newString = no * string.mkString(" ")
+            //color + newString
+            "hej"
+        }
+    }
+
     def run = {
         println("Hello day 7")
-        fromFile("input/day7.txt")
-        createGraph
-        println(numberOfBagsContainShiny + " can contain a shiny bag")
+        //fromFile("input/day7.txt")
+        fromFile("testinput.txt")
+        createColorGraph
+        println(numberOfBagsContainShiny + " bags can contain a shiny bag")
+        //println(findNumbers(colors(0)))
+        createNumberGraph
+        createCombined
+        println(colorAndNumber)
+        println("Summan av väskor är " + calculate("shiny gold", 1))
     }
 }
+
+//too high: 207483
