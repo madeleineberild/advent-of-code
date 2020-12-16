@@ -3,6 +3,7 @@ package adventofcode
 import scala.io.Source
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.mutable.HashMap
+import scala.collection.mutable.LiftBuffer
 
 class Day7 {
     val input = new ArrayBuffer[String]
@@ -54,9 +55,9 @@ class Day7 {
         for(color <- colors) {
             for(n <- numberGraph(color); c <- colorGraph(color)) {
                 if(input.find(_.startsWith(color)).getOrElse("").contains(s"$n $c")) {
-                    println("Kommer hit")
+                    //println("Kommer hit")
                     if(colorAndNumber.isDefinedAt(color)) {
-                        colorAndNumber.put(color, colorAndNumber(c) :+ (n, c))
+                        colorAndNumber.put(color, colorAndNumber(color) :+ (n, c))
                     } else {
                         colorAndNumber.put(color, Vector((n, c)))
                     }
@@ -110,21 +111,27 @@ class Day7 {
     def calculate(color: String, no: Int): Int = {
         var sum = 0
         if(!colorAndNumber.isDefinedAt(color)) {
-            println("tom väska")
             no
         } else {
-            colorAndNumber(color).map(x => calculate(x._2, x._1)).sum + no
+            colorAndNumber(color).map(x => no* calculate(x._2, x._1)).sum
         }
     }
 
-    def _calculate(color: String, no: Int): String = {
+    def _calculate(color: String, no: Int, res: LiftBuffer[String]) = {
         if(colorAndNumber(color).isEmpty) {
-            (color * no)
+            for(i <- 0 until no) {
+                res.append(color)
+            }
         } else {
-            val string = (for(p <- colorAndNumber(color)) yield _calculate(p._2, p._1))
-            //val newString = no * string.mkString(" ")
-            //color + newString
-            "hej"
+            for(i <- 0 until no) {
+                res.append(color)
+            }
+            for(pair <- colorAndNumber(color)) {
+                val n = colorAndNumber(color)(0)._1
+                val c = colorAndNumber(color)(0)._2
+                _calculate(c, n, res)
+            }
+            
         }
     }
 
@@ -133,13 +140,16 @@ class Day7 {
         //fromFile("input/day7.txt")
         fromFile("testinput.txt")
         createColorGraph
-        println(numberOfBagsContainShiny + " bags can contain a shiny bag")
+        //println(numberOfBagsContainShiny + " bags can contain a shiny bag")
         //println(findNumbers(colors(0)))
         createNumberGraph
         createCombined
         println(colorAndNumber)
-        println("Summan av väskor är " + calculate("shiny gold", 1))
+        val res = LiftBuffer[String]()
+        _calculate("shiny gold", 1, res)
+        println("Summan av väskor är " + (res.length-1))
     }
 }
 
 //too high: 207483
+//too high: 1111263

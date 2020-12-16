@@ -9,10 +9,11 @@ object Main {
     val day6 = new Day6
     val day7 = new Day7 // not done
     val day8 = new Day8
+    val day9 = new Day9
 
     def main(args: Array[String]): Unit = {
         println("Hello advent of code!")
-        val today = day8
+        val today = day9
         today.run
     }
 
