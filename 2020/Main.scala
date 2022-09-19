@@ -13,7 +13,7 @@ object Main {
 
     def main(args: Array[String]): Unit = {
         println("Hello advent of code!")
-        val today = day9
+        val today = day7
         today.run
     }
 
