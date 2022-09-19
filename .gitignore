@@ -6,3 +6,5 @@ target/
 build/
 .bsp/
 .idea/
+.metals/
+.vscode/
