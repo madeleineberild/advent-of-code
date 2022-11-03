@@ -24,18 +24,15 @@ class Day7 {
         //find all that can lead to shiny gold bag
         //count
         val colorMapping = mapColors
-        
+        0
     }
 
-    def mapColors: HashMap = {
-        val result = new HashMap()
-        for(line <- input) {
-            
-        }
+    def mapColors: Unit = {
+
     }
 
     def solvePartTwo: Int = {
-
+        0
     }
 
     def run = {

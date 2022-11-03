@@ -1,9 +1,9 @@
 *.class
 .DS_Store
 bin/
-project/
-target/
-build/
+/project/
+*/target/*
+/build/
 .bsp/
 .idea/
 .metals/

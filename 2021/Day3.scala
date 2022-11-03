@@ -1,3 +1,5 @@
+package adventofcode
+
 import scala.io.Source
 import scala.collection.mutable.ArrayBuffer
 
