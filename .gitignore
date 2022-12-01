@@ -2,10 +2,10 @@
 .DS_Store
 bin/
 /project/
-*/target/*
+/target/
 /build/
 .bsp/
 .idea/
 .metals/
 .vscode/
-2020/adventofcode/
+*/adventofcode/
