@@ -7,4 +7,5 @@ This is my Advent of Code repository, just for fun :)
 2021 : scala : day 1 -> 8
 
 2022 : scala : day 1 -> 8
+
      : c     : day 1
