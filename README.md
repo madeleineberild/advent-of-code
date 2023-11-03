@@ -2,10 +2,16 @@
 
 This is my Advent of Code repository, just for fun :)
 
-2020 : scala : day 1 -> 9
+## 2020
 
-2021 : scala : day 1 -> 8
+Scala : day 1 -> 9
 
-2022 : scala : day 1 -> 8
+## 2021
 
-     : c     : day 1
+Scala : day 1 -> 8
+
+## 2022
+
+Scala : day 1 -> 8
+
+C : day 1
