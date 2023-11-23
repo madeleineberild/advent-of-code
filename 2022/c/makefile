@@ -1,4 +1,4 @@
-DAY=day1
+DAY=day2
 INPUT=../input/$(DAY).txt
 TESTINPUT=../input/testinput.txt
 
