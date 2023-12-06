@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../stringlib.h"
+#include "../libs/stringlib.h"
 
 int handle_configuration(char* game_string, int config[3]) {
     int valid = 1;

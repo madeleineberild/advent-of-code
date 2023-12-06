@@ -21,7 +21,7 @@ part2: compilelibs
 	./target/$(DAY)_part2 < $(INPUT)
 
 compilelibs:
-	gcc -o target/stringlib.o -c stringlib.c
+	gcc -o target/stringlib.o -c libs/stringlib.c
 
 clean:
 	rm -rf target/*
