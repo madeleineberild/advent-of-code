@@ -4,21 +4,24 @@ TESTINPUT=../input/testinput.txt
 
 both: part1 part2
 
-testpart1:
-	gcc -o target/$(DAY)_part1 $(DAY)/part1.c
+testpart1: compilelibs
+	gcc -o target/$(DAY)_part1 $(DAY)/part1.c target/stringlib.o
 	./target/$(DAY)_part1 < $(TESTINPUT)
 
-testpart2:
-	gcc -o target/$(DAY)_part2 $(DAY)/part2.c
+testpart2: compilelibs
+	gcc -o target/$(DAY)_part2 $(DAY)/part2.c target/stringlib.o
 	./target/$(DAY)_part2 < $(TESTINPUT)
 
-part1:
-	gcc -o target/$(DAY)_part1 $(DAY)/part1.c
+part1: compilelibs
+	gcc -o target/$(DAY)_part1 $(DAY)/part1.c target/stringlib.o
 	./target/$(DAY)_part1 < $(INPUT)
 
-part2:
-	gcc -o target/$(DAY)_part2 $(DAY)/part2.c
+part2: compilelibs
+	gcc -o target/$(DAY)_part2 $(DAY)/part2.c target/stringlib.o
 	./target/$(DAY)_part2 < $(INPUT)
+
+compilelibs:
+	gcc -o target/stringlib.o -c stringlib.c
 
 clean:
 	rm -rf target/*
