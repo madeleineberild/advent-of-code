@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../libs/list.h"
+#include "../libs/stringlib.h"
 
 int main() {
     char buf[64];
@@ -9,12 +10,18 @@ int main() {
     int rows = 0;
     list_t* list = NULL;
 
-    // get how many rows first... feels inefficient
-    while(fgets(buf,1,stdin) != NULL) {
-        rows++;
+    while(fgets(buf,sizeof(buf),stdin) != NULL) {
+        replace(buf, '\n', '\0');
+        char* string = (char *)malloc(strlen(buf) + 1);
+        strcpy(string, buf);
+        if(list == NULL) {
+            list = new_list(string);
+        } else {
+            append(&list, string);
+        }
     }
 
-    array_of_strings = malloc(rows * sizeof(char*));
+    
 
     printf("The sum is: %ld\n", sum);
     return 0;
