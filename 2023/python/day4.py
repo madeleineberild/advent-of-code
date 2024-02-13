@@ -14,6 +14,7 @@ class Card:
     def __init__(self, winningNumbers, numbers):
         self.winningNumbers = winningNumbers
         self.numbers = numbers
+        self.matchingNumbers = 0
 
 
 def partOne(scratchcards):
@@ -35,13 +36,25 @@ def partOne(scratchcards):
         partSum = 0
         for win in card.winningNumbers:
             if win in card.numbers:
+                card.matchingNumbers += 1
                 if partSum == 0:
                     partSum = 1
                 else:
                     partSum = partSum * 2
         sum += partSum
 
-    return sum
+    return sum, cards
+
+
+def partTwo(cards):
+    copies = [1 for x in range(len(cards))]
+    for index, card in enumerate(cards):
+        n = card.matchingNumbers
+        for i in range(1, n+1):
+            for instance in range(copies[index]):
+                copies[index+i] += 1
+
+    return sum(copies)
 
 
 def main():
@@ -49,11 +62,11 @@ def main():
     input = "../input/day4.txt"
     scratchcards = parse(input)
 
-    output1 = partOne(scratchcards)
+    output1, cards = partOne(scratchcards)
     print(f"Part one: The scratchcards are worth in total: {output1}")
 
-    # output2 = partTwo(inputStrings)
-    # print(f"Part two: The sum of all the gears is: {output2}")
+    output2 = partTwo(cards)
+    print(f"Part two: The total number of scratchcards is: {output2}")
 
 
 if __name__ == "__main__":
