@@ -99,8 +99,10 @@ def findAdjacentNumbers(i, j, inputStrings) -> list[int]:
     meaning if a gear is surrounded by several copies of a number
     they will not be detected. The point is to avoid dual discovery
     as we traverse around the gear. Could be fixed by taking discovered
-    numbers' indices into account
+    numbers' indices into account.
 """
+
+
 def partTwo(inputStrings) -> int:
     sum = 0
 
