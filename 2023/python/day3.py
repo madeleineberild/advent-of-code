@@ -1,11 +1,8 @@
 from pathlib import Path
 
 
-input = "../input/day3.txt"
-
-
-def parse() -> list[str]:
-    file = open(Path(input), "r")
+def parse(path: str) -> list[str]:
+    file = open(Path(path), "r")
     inputStrings = list()
     for line in file:
         inputStrings.append(line)
@@ -65,10 +62,45 @@ def partOne(inputStrings, symbols) -> int:
     return sum
 
 
+def findNumber(i, j, matrix) -> int:
+    numberString = matrix[i][j]
+
+    # build right
+    rightJ = j + 1
+    while rightJ < len(matrix[0]) and matrix[i][rightJ].isdigit():
+        numberString = numberString + matrix[i][rightJ]
+        rightJ += 1
+
+    # build left
+    leftJ = j - 1
+    while leftJ >= 0 and matrix[i][leftJ].isdigit():
+        numberString = matrix[i][leftJ] + numberString
+        leftJ -= 1
+
+    return int(numberString)
+
+
 def findAdjacentNumbers(i, j, inputStrings) -> list[int]:
-    return list(0)
+    numbers = set()
+
+    for otherI in range(i-1, i+2):
+        for otherJ in range(j-1, j+2):
+            if i == otherI and j == otherJ:
+                pass
+            if inputStrings[otherI][otherJ].isdigit():
+                numbers.add(findNumber(otherI, otherJ, inputStrings))
+
+    return list(numbers)
 
 
+"""
+    The solution for part two has a flaw that my input did not
+    check for. The problem is that only unique numbers are counted,
+    meaning if a gear is surrounded by several copies of a number
+    they will not be detected. The point is to avoid dual discovery
+    as we traverse around the gear. Could be fixed by taking discovered
+    numbers' indices into account
+"""
 def partTwo(inputStrings) -> int:
     sum = 0
 
@@ -83,7 +115,9 @@ def partTwo(inputStrings) -> int:
 
 
 def main():
-    inputStrings = parse()
+    # test = "../input/testinput.txt"
+    input = "../input/day3.txt"
+    inputStrings = parse(input)
 
     output1 = partOne(inputStrings, "!#$%&'()*+,-/:;<=>?@[\]^_`{|}~")
     print(f"Part one: The sum of all the part numbers is: {output1}")
