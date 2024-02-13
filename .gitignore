@@ -10,3 +10,4 @@ bin/
 .vscode/
 */adventofcode/
 */venv/
+*__pycache__
