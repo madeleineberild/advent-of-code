@@ -81,14 +81,24 @@ def partOne(almanac):
 
 def partTwo(almanac):
 
-    seedRanges, index = getSeeds(almanac)
+    # Try to map everything backwards from location -> seed
+    # and take the first seed that is found in the original ranges
+
+    seeds, index = getSeeds(almanac)
+    seedRanges = []
+    i = 0
+    while i + 1 < len(seeds):
+        start = seeds[i]
+        rangeLength = seeds[i + 1]
+        seedRanges.append([start, rangeLength])
+        i += 2
+
     mappings = getMappings(almanac, index)
     lowestLocation = -1
 
-    i = 0
-    while i + 1 < len(seedRanges):
-        start = seedRanges[i]
-        rangeLength = seedRanges[i + 1]
+    for seedRange in seedRanges:
+        start = seedRange[0]
+        rangeLength = seedRange[1]
         for j in range(0, rangeLength):
             seed = start + j
             location = seed
@@ -101,14 +111,12 @@ def partTwo(almanac):
             else:
                 lowestLocation = location
 
-        i += 2
-
     return lowestLocation
 
 
 def main():
-    # input = "../input/testinput.txt"
-    input = "../input/day5.txt"
+    input = "../input/testinput.txt"
+    # input = "../input/day5.txt"
     almanac = parse(input)
 
     output1 = partOne(almanac)
