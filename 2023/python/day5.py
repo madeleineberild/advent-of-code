@@ -44,8 +44,7 @@ def getValue(mapping, key):
     return key
 
 
-def partOne(almanac):
-    seeds, index = getSeeds(almanac)
+def getMappings(almanac, index):
     seedToSoil, index = getMap(almanac, index)
     soilToFertilizer, index = getMap(almanac, index)
     fertilizerToWater, index = getMap(almanac, index)
@@ -56,6 +55,14 @@ def partOne(almanac):
 
     mappings = [seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight,
                 lightToTemperature, temperatureToHumidity, humidityToLocation]
+
+    return mappings
+
+
+def partOne(almanac):
+    seeds, index = getSeeds(almanac)
+    mappings = getMappings(almanac, index)
+
     lowestLocation = -1
 
     for seed in seeds:
@@ -72,8 +79,31 @@ def partOne(almanac):
     return lowestLocation
 
 
-def partTwo(input):
-    pass
+def partTwo(almanac):
+
+    seedRanges, index = getSeeds(almanac)
+    mappings = getMappings(almanac, index)
+    lowestLocation = -1
+
+    i = 0
+    while i + 1 < len(seedRanges):
+        start = seedRanges[i]
+        rangeLength = seedRanges[i + 1]
+        for j in range(0, rangeLength):
+            seed = start + j
+            location = seed
+            for mapping in mappings:
+                location = getValue(mapping, location)
+
+            if lowestLocation != -1:
+                if location < lowestLocation:
+                    lowestLocation = location
+            else:
+                lowestLocation = location
+
+        i += 2
+
+    return lowestLocation
 
 
 def main():
@@ -82,10 +112,12 @@ def main():
     almanac = parse(input)
 
     output1 = partOne(almanac)
-    print(f"Part one: the lowest location number that corresponds to any of the initial seed numbers is: {output1}")
+    print("Part one: the lowest location number that corresponds to any of " +
+          f"the initial seed numbers is: {output1}")
 
-    # output2 = partTwo(cards)
-    # print(f"Part two: The total number of scratchcards is: {output2}")
+    output2 = partTwo(almanac)
+    print("Part two: the lowest location number that corresponds to any of " +
+          f"the initial seed numbers: {output2}")
 
 
 if __name__ == "__main__":
