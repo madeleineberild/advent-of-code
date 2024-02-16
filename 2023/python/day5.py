@@ -44,6 +44,28 @@ def getValue(mapping, key):
     return key
 
 
+def getBackwardsValue(mapping, location):
+    for line in mapping:
+        destinationStart = line[0]  # because we are going backwards
+        sourceStart = line[1]
+        rangeLength = line[2]
+        if location >= sourceStart and location < sourceStart + rangeLength:
+            diff = location - sourceStart
+            return destinationStart + diff
+
+    return location
+
+
+def findSeed(seedRanges, seed):
+    for seedRange in seedRanges:
+        start = seedRange[0]
+        rangeLength = seedRange[1]
+        if seed >= start and seed < start + rangeLength:
+            return True
+
+    return False
+
+
 def getMappings(almanac, index):
     seedToSoil, index = getMap(almanac, index)
     soilToFertilizer, index = getMap(almanac, index)
@@ -79,11 +101,9 @@ def partOne(almanac):
     return lowestLocation
 
 
+# Try to map everything backwards from location -> seed
+# and take the first seed that is found in the original ranges
 def partTwo(almanac):
-
-    # Try to map everything backwards from location -> seed
-    # and take the first seed that is found in the original ranges
-
     seeds, index = getSeeds(almanac)
     seedRanges = []
     i = 0
@@ -94,29 +114,27 @@ def partTwo(almanac):
         i += 2
 
     mappings = getMappings(almanac, index)
-    lowestLocation = -1
+    backwardMappings = list(reversed(mappings))
+    foundSeed = False
 
-    for seedRange in seedRanges:
-        start = seedRange[0]
-        rangeLength = seedRange[1]
-        for j in range(0, rangeLength):
-            seed = start + j
-            location = seed
-            for mapping in mappings:
-                location = getValue(mapping, location)
+    lowestLocation = 0
 
-            if lowestLocation != -1:
-                if location < lowestLocation:
-                    lowestLocation = location
-            else:
-                lowestLocation = location
+    while not foundSeed and lowestLocation:
+        print(lowestLocation)
+        seed = lowestLocation
+        for mapping in backwardMappings:
+            seed = getBackwardsValue(mapping, seed)
 
-    return lowestLocation
+        foundSeed = findSeed(seedRanges, seed)
+        if foundSeed:
+            return lowestLocation
+        else:
+            lowestLocation += 1
 
 
 def main():
-    input = "../input/testinput.txt"
-    # input = "../input/day5.txt"
+    # input = "../input/testinput.txt"
+    input = "../input/day5.txt"
     almanac = parse(input)
 
     output1 = partOne(almanac)
