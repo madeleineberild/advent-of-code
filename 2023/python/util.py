@@ -8,3 +8,14 @@ def parse(path: str) -> list[str]:
         inputStrings.append(line)
 
     return inputStrings
+
+
+def extractNumbersArray(string: str):
+    numbers = []
+
+    splitString = string.replace("\n", "").split(" ")
+    for s in splitString:
+        if s.isdigit():
+            numbers.append(int(s))
+
+    return numbers

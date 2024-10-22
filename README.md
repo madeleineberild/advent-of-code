@@ -4,7 +4,9 @@ This is my Advent of Code repository, just for fun :)
 
 ## 2023
 
-C : day 1 -> ?
+Python : day 3 -> 6
+
+C : day 1 -> 3
 
 ## 2022
 
